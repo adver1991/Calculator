@@ -25,6 +25,7 @@ public:
 	Scanner(char const * buf);
 	//·µ»Ø¼ÇºÅ
 	EToken Token()const{ return _token; }
+	bool IsDone()const;
 	void Accept();
 	double Number()
 	{
@@ -32,6 +33,7 @@ public:
 		return _number;
 	}
 	void GetSymbolName(char * strOut, int & len);
+	bool IsEmpty() const;
 private:
 	//ºöÂÔ¿Õ¸ñ
 	void EatWhite();

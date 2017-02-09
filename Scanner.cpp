@@ -93,3 +93,11 @@ void Scanner::GetSymbolName(char * strOut, int &len)
 	strOut[_lenSymbol] = '\0';
 	len = _lenSymbol;
 }
+bool Scanner::IsDone()const
+{
+	return _buf[_iLook] == '\0';
+}
+bool Scanner::IsEmpty()const
+{
+	return _buf == 0;
+}

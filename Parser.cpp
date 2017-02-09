@@ -33,54 +33,18 @@ Parser::Parser(Scanner & scanner,
 	std::cout << "Parser Created" << std::endl;
 }
 //解析记号
-Status Parser::Eval()
-{
-	Parse();
-	if (_status == stOK)
-		Execute();
-	else
-		_status == stQuit;
-	return _status;
-	//for (EToken token = _scanner.Token();
-	//	token != tEnd;
-	//	_scanner.Accept())
-	//{
-	//	token = _scanner.Token();
-	//	switch (token)
-	//	{
-	//	case tMult:
-	//		std::cout << "Times" << std::endl;
-	//		break;
-	//	case tPlus:
-	//		std::cout << "Plus" << std::endl;
-	//		break;
-	//	case tNumber:
-	//		std::cout << "Number: " << _scanner.Number() << std::endl;
-	//		break;
-	//	case tEnd:
-	//		std::cout << "End" << std::endl;
-	//		return stQuit;
-	//	case tError:
-	//		std::cout << "Error" << std::endl;
-	//		return stQuit;
-	//	default:
-	//		std::cout << "Error: bad token" << std::endl;
-	//		return stQuit;
-	//	}
-	//}
-	//return stOK;
-}
-void Parser::Execute()
-{
-	if (_pTree)
-	{
-		double result = _pTree->Calc();
-		std::cout << " " << result << std::endl;
-	}
-}
-void Parser::Parse()
+Status Parser::Parse()
 {
 	_pTree = Expr();
+	if (!_scanner.IsDone())
+		_status = stError;
+	return _status;
+}
+double Parser::Calculate()const
+{
+	assert(_status == stOK);
+	assert(_pTree != 0);
+	return _pTree->Calc();
 }
 //表达式
 Node* Parser::Expr()
