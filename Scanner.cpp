@@ -75,23 +75,25 @@ void Scanner::Accept()
 				cLook = _buf[_iLook];
 			} while (std::isalnum(cLook) || cLook == '_');//字母、数字、下划线
 			_lenSymbol = _iLook - _iSymbol;
-			if (_lenSymbol >= maxSymLen)
-				_lenSymbol = maxSymLen - 1;
+			if (_lenSymbol > maxSymLen)
+				//_lenSymbol = maxSymLen - 1;
+				_lenSymbol = maxSymLen;
 		}
 		else
 			_token = tError;
 		break;
 	}
 }
-//识别标识符的名字
-void Scanner::GetSymbolName(char * strOut, int &len)
+int Scanner::GetSymbolName(char * strOut, int lenBuf)
 {
-	assert(len >= maxSymLen);
-	assert(_lenSymbol < maxSymLen);
-	std::strncpy(strOut, &_buf[_iSymbol], _lenSymbol);
-	//结尾标识符
-	strOut[_lenSymbol] = '\0';
-	len = _lenSymbol;
+	//lenBuf为缓冲器的长度
+	assert(lenBuf > maxSymLen);
+	assert(_lenSymbol < lenBuf);
+	//将buf赋给strOut
+	strncpy(strOut, &_buf[_iSymbol], _lenSymbol);
+	strOut[_lenSymbol] = 0;
+	//返回值：复制到缓冲器中的字符串（不包含'\0'）长度
+	return _lenSymbol;
 }
 bool Scanner::IsDone()const
 {

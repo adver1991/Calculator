@@ -130,9 +130,9 @@ Node* Parser::Factor()
 	else if (token == tIdent)
 	{
 		char strSymbol[maxSymLen + 1];
-		int lenSym = maxSymLen;
-		//复制symbol到strSymbol
-		_scanner.GetSymbolName(strSymbol, lenSym);
+		//int lenSym = maxSymLen;
+		//复制symbol到strSymbol,lenSym为字符长
+		int lenSym=_scanner.GetSymbolName(strSymbol, maxSymLen+1);
 		int id = _symTab.Find(strSymbol);
 		_scanner.Accept();
 		//函数调用 如sin(x)

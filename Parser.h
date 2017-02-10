@@ -25,11 +25,9 @@ public:
 	Status Parse();
 	double Calculate()const;
 private:
-	//void Parse();
 	Node* Expr();
 	Node* Term();
 	Node* Factor();
-	//void Execute();
 	
 
 	Scanner & _scanner;//É¨ÃèÆ÷

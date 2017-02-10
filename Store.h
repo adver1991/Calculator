@@ -23,11 +23,11 @@ public:
 	}
 	void SetValue(int id, double val)
 	{
-		if (id < _size)
-		{
-			_cell[id] = val;
-			_status[id] = stInit;
-		}
+		//if (id < _size)从防错性编程到主动性编程
+		assert(id < _size);
+		_cell[id] = val;
+		_status[id] = stInit;
+		
 	}
 private:
 	//数组大小
