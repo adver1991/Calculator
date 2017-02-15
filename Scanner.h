@@ -23,15 +23,18 @@ class Scanner
 {
 public:
 	Scanner(char const * buf);
-	//返回记号
+	//返回记号GetSymbolName
 	EToken Token()const{ return _token; }
+	bool IsDone()const;
 	void Accept();
 	double Number()
 	{
 		assert(_token == tNumber);
 		return _number;
 	}
-	void GetSymbolName(char * strOut, int & len);
+	//void GetSymbolName(char * strOut, int & len);
+	int GetSymbolName(char * strOut, int  len);
+	bool IsEmpty() const;
 private:
 	//忽略空格
 	void EatWhite();

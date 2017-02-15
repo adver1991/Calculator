@@ -33,54 +33,18 @@ Parser::Parser(Scanner & scanner,
 	std::cout << "Parser Created" << std::endl;
 }
 //解析记号
-Status Parser::Eval()
-{
-	Parse();
-	if (_status == stOK)
-		Execute();
-	else
-		_status == stQuit;
-	return _status;
-	//for (EToken token = _scanner.Token();
-	//	token != tEnd;
-	//	_scanner.Accept())
-	//{
-	//	token = _scanner.Token();
-	//	switch (token)
-	//	{
-	//	case tMult:
-	//		std::cout << "Times" << std::endl;
-	//		break;
-	//	case tPlus:
-	//		std::cout << "Plus" << std::endl;
-	//		break;
-	//	case tNumber:
-	//		std::cout << "Number: " << _scanner.Number() << std::endl;
-	//		break;
-	//	case tEnd:
-	//		std::cout << "End" << std::endl;
-	//		return stQuit;
-	//	case tError:
-	//		std::cout << "Error" << std::endl;
-	//		return stQuit;
-	//	default:
-	//		std::cout << "Error: bad token" << std::endl;
-	//		return stQuit;
-	//	}
-	//}
-	//return stOK;
-}
-void Parser::Execute()
-{
-	if (_pTree)
-	{
-		double result = _pTree->Calc();
-		std::cout << " " << result << std::endl;
-	}
-}
-void Parser::Parse()
+Status Parser::Parse()
 {
 	_pTree = Expr();
+	if (!_scanner.IsDone())
+		_status = stError;
+	return _status;
+}
+double Parser::Calculate()const
+{
+	assert(_status == stOK);
+	assert(_pTree != 0);
+	return _pTree->Calc();
 }
 //表达式
 Node* Parser::Expr()
@@ -166,9 +130,9 @@ Node* Parser::Factor()
 	else if (token == tIdent)
 	{
 		char strSymbol[maxSymLen + 1];
-		int lenSym = maxSymLen;
-		//复制symbol到strSymbol
-		_scanner.GetSymbolName(strSymbol, lenSym);
+		//int lenSym = maxSymLen;
+		//复制symbol到strSymbol,lenSym为字符长
+		int lenSym=_scanner.GetSymbolName(strSymbol, maxSymLen+1);
 		int id = _symTab.Find(strSymbol);
 		_scanner.Accept();
 		//函数调用 如sin(x)
@@ -194,8 +158,19 @@ Node* Parser::Factor()
 		else
 		{
 			if (id == idNotFound)
+			{
 				id = _symTab.ForcAdd(strSymbol, lenSym);
-			pNode = new VarNode(id, _store);
+				if (id == idNotFound)
+				{
+					std::cerr << "Error:Too many variables\n";
+					_status = stError;
+					pNode = 0;
+				}
+			}
+			if (id != idNotFound)
+			{
+				pNode = new VarNode(id, _store);
+			}
 		}
 	}
 	//一元减

@@ -21,13 +21,14 @@ public:
 		FunctionTable& funTab,
 		SymbolTable & symTab);
 	~Parser();
-	Status Eval();
+	//Status Eval();
+	Status Parse();
+	double Calculate()const;
 private:
-	void Parse();
 	Node* Expr();
 	Node* Term();
 	Node* Factor();
-	void Execute();
+	
 
 	Scanner & _scanner;//É¨ÃèÆ÷
 	SymbolTable & _symTab;//·ûºÅ±í
