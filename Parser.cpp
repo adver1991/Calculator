@@ -158,8 +158,19 @@ Node* Parser::Factor()
 		else
 		{
 			if (id == idNotFound)
+			{
 				id = _symTab.ForcAdd(strSymbol, lenSym);
-			pNode = new VarNode(id, _store);
+				if (id == idNotFound)
+				{
+					std::cerr << "Error:Too many variables\n";
+					_status = stError;
+					pNode = 0;
+				}
+			}
+			if (id != idNotFound)
+			{
+				pNode = new VarNode(id, _store);
+			}
 		}
 	}
 	//Ò»Ôª¼õ

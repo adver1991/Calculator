@@ -5,13 +5,12 @@
 #include"Parser.h"
 const int maxBuf = 100;
 const int maxSymbols = 40;
-
 int main()
 {
 	char buf[maxBuf];
 	Status status;
 	SymbolTable symTab(maxSymbols);
-	FunctionTable funTab(symTab, funArr);	
+	FunctionTable funTab(symTab);
 	Store store(maxSymbols, symTab);
 	std::cout << "\n Entry empty line to quit\n";
 	do

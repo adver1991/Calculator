@@ -2,7 +2,7 @@
 #include"SymbolTable.h"
 #include<iostream>
 double CoTan(double x);
-FunctionEntry funArr[maxIdFun] =
+static FunctionEntry FunctionArray[] =
 {
 	log, "log",
 	log10, "log10",
@@ -18,24 +18,23 @@ FunctionEntry funArr[maxIdFun] =
 	asin, "asin",
 	acos, "acos",
 	atan, "atan",
-	0, ""
 };
-FunctionTable::FunctionTable(SymbolTable& symTab,
-	FunctionEntry funArr[]) :_size(0)
+FunctionTable::FunctionTable(SymbolTable& symTab) 
+		:_size(sizeof FunctionArray/sizeof FunctionArray[0])
 {
-	for (int i = 0; i < maxIdFun; ++i)
+	_pFun = new PtrFun[_size];
+	for (int i = 0; i < _size; ++i)
 	{
-		int len = std::strlen(funArr[i].strFun);
-		if (len == 0)
-		{
-			break;
-		}
-		_pFun[i] = funArr[i].pFun;
-		std::cout << funArr[i].strFun << std::endl;
-		int j = symTab.ForcAdd(funArr[i].strFun, len);
+		int len = std::strlen(FunctionArray[i].strFun);
+		_pFun[i] = FunctionArray[i].pFun;
+		std::cout << FunctionArray[i].strFun << std::endl;
+		int j = symTab.ForcAdd(FunctionArray[i].strFun, len);
 		assert(i == j);
-		++_size;
 	}
+}
+FunctionTable::~FunctionTable()
+{
+	delete[] _pFun;
 }
 double CoTan(double x)
 {
