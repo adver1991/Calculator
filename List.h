@@ -23,3 +23,14 @@ private:
 	//Í·Ö¸Õë
 	Link* _pHead;
 };
+class ListSeq
+{
+public:
+	ListSeq(List const& list)
+		:_pLink(list.GetHead()){}
+	bool AtEnd()const{ return _pLink == 0; }
+	void Advance(){ _pLink = _pLink->Next(); }
+	int GetId()const{ return _pLink->Id(); }
+private:
+	Link const* _pLink;
+};

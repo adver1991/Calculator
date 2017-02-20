@@ -101,5 +101,5 @@ bool Scanner::IsDone()const
 }
 bool Scanner::IsEmpty()const
 {
-	return _buf == 0;
+	return _buf[0] == '\0';
 }

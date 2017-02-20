@@ -12,8 +12,9 @@ SymbolTable::~SymbolTable()
 	delete[]_offStr;
 }
 
-int SymbolTable::ForcAdd(char const * str, int len)
+int SymbolTable::ForcAdd(char const * str)
 {
+	int len = std::strlen(str);
 	if (_curId == maxStrings || !_strBuf.WillFit(len))
 	{
 		return idNotFound;
@@ -28,16 +29,11 @@ int SymbolTable::ForcAdd(char const * str, int len)
 }
 int SymbolTable::Find(char const * str)const
 {
-	//查找哈希表
-	List const & list = _htab.Find(str);
-	//在短链表上查找
-	for (Link const * pLink = list.GetHead();
-		pLink != 0;
-		pLink = pLink->Next())
+	for (IdSeq seq(_htab, str);
+		!seq.AtEnd();
+		seq.Advance())
 	{
-		//偏移数组的索引
-		int id = pLink->Id();
-		//偏移数组中保存了字符串在字符串缓冲器中的索引
+		int id = seq.GetId();
 		int offStr = _offStr[id];
 		if (_strBuf.IsEqual(offStr, str))
 			return id;

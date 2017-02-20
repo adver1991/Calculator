@@ -1,5 +1,5 @@
 #include"Htable.h"
-List const & HTable::Find(char const * str)const
+List & HTable::Find(char const * str)const
 {
 	int i = hash(str);
 	return _aList[i];

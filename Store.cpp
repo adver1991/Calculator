@@ -11,10 +11,10 @@ Store::Store(int size, SymbolTable& symTab) :_size(size)
 	}
 	//add predefined constants
 	std::cout << "e= " << std::exp(1) << std::endl;
-	int id = symTab.ForcAdd("e",1);
+	int id = symTab.ForcAdd("e");
 	SetValue(id, std::exp(1));
 	std::cout << "pi= " << 2 * std::acos(0.0)//acos·´ÓàÏÒ 
 		<< std::endl;
-	id = symTab.ForcAdd("pi", 2);
+	id = symTab.ForcAdd("pi");
 	SetValue(id, 2.0*std::acos(0.0));
 }

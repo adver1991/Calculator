@@ -10,7 +10,7 @@ class SymbolTable
 public:
 	explicit SymbolTable(int size);
 	~SymbolTable();
-	int ForcAdd(char const * str, int len);
+	int ForcAdd(char const * str);
 	int Find(char const * str)const;
 	char const * GetString(int id)const;
 private:
